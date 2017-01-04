@@ -27,6 +27,11 @@
     "type": "git",
     "url": "https://github.com/mrcoco/vokuro-cli"
   },
+  "autoload": {
+    "psr-4": {
+      "App\\": "command"
+    }
+  },
   "bugs": "https://github.com/mrcoco/vokuro-cli/issues",
   "license": "BSD-3",
   "require": {
