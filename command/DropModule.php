@@ -12,7 +12,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
-
+use Phalcon\Db\Adapter\Pdo\Mysql as DbMysqlAdapter;
+use Phalcon\Db\Adapter\Pdo\Postgresql as DbPgsqlAdapter;
 
 class DropModule extends Command
 {
@@ -33,7 +34,48 @@ class DropModule extends Command
         $module     = $input->getArgument('module');
         $module_dir = BASE_PATH.'/modules';
         $directory  = $module_dir.DIRECTORY_SEPARATOR.$module;
-        /*$it = new \RecursiveDirectoryIterator($directory,\RecursiveDirectoryIterator::SKIP_DOTS);
+        $this->delDirectory($directory);
+        $this->delConfig($module);
+        $this->dropTable($module);
+        $output->writeln("Module ".$module." Deleted");
+    }
+
+    /*
+     *
+     */
+    public function dropTable($module)
+    {
+        $config = include APP_PATH."/config/config.php";
+
+        if($config->database->adapter == 'PgSql'){
+            $db = new DbPgsqlAdapter([
+                'host'      => $config->database->host,
+                'username'  => $config->database->username,
+                'password'  => $config->database->password,
+                'dbname'    => $config->database->dbname
+            ]);
+        }else{
+            $db = new DbMysqlAdapter([
+                'host'      => $config->database->host,
+                'username'  => $config->database->username,
+                'password'  => $config->database->password,
+                'dbname'    => $config->database->dbname
+            ]);
+        }
+        return $db->dropTable($module);
+    }
+
+    public function delConfig($module){
+        $config = include APP_PATH."/config/modules.php";
+        if(($key = array_search($module, $config)) !== false) {
+            unset($config[$key]);
+        }
+        file_put_contents(APP_PATH."/config/modules.php", '<?php return [' ."'".implode("','",$config)."'".'];');
+    }
+
+    public function delDirectory($directory)
+    {
+        $it = new \RecursiveDirectoryIterator($directory,\RecursiveDirectoryIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach($files as $file) {
             if ($file->isDir()){
@@ -43,14 +85,5 @@ class DropModule extends Command
             }
         }
         rmdir($directory);
-        $output->writeln("Module ".$module." Deleted");*/
-
-        //$vendor = $composer->getConfig()->get("vendor-dir");
-        //$file = file_get_contents(realpath(__DIR__ . '/../src')."/view.txt");
-
-
-        $output->writeln($config);
-
-
     }
 }
