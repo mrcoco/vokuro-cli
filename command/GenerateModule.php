@@ -49,8 +49,6 @@ class GenerateModule extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $names  = $input->getArgument('module');
-        $table  = $input->getArgument('table');
-        $column = $input->getArgument('column');
         $module = BASE_PATH.'/modules';
 
         if (is_dir($module) && !is_writable($module)) {
@@ -62,6 +60,7 @@ class GenerateModule extends Command
                 $this->createModuleClass($module,$names,$output);
                 $this->createTable($input,$output);
                 $this->createModel($input,$output);
+                $this->createView($input,$output);
                 $this->createController($input,$output);
                 $this->createRoute($input,$output);
                 $this->createConfig($names);
@@ -141,6 +140,24 @@ class GenerateModule extends Command
         $output->writeln($return_model);
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed
+     */
+    public function createView(InputInterface $input, OutputInterface $output)
+    {
+        $view = $this->getApplication()->find('create:view');
+        $view_argument = array(
+            'command'   => 'create:view',
+            'module'    => $input->getArgument('module'),
+            'controller' => $input->getArgument('table'),
+            'action'     => 'index',
+        );
+        $input_view = new ArrayInput($view_argument);
+        $return_view = $view->run($input_view,$output);
+        return $output->writeln($return_view);
+    }
     /**
      * Generate Controller
      * @param InputInterface $input

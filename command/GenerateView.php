@@ -51,8 +51,14 @@ class GenerateView extends  Command
             $output->writeln("Failed to create Views Directory");
         }
         $file = file_get_contents($source);
+        $file = str_replace("oke", ucfirst($action), $file);
         if (!file_exists($view."/".ucfirst($action).".volt")) {
-            $fh = fopen($view."/".ucfirst($action). ".volt", "w");
+            if($action == 'index'){
+                $fm = fopen($view."/main.volt", "w");
+                fwrite($fm, "{{ content() }}");
+                fclose($fm);
+            }
+            $fh = fopen($view."/".strtolower($action). ".volt", "w");
             fwrite($fh, $file);
             fclose($fh);
 
