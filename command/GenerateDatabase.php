@@ -143,7 +143,7 @@ class GenerateDatabase extends Command
             ));
         }
 
-        $arr_column[] = new Column("createAt", array(
+        $arr_column[] = new Column("created", array(
             "type"    => Column::TYPE_TIMESTAMP,
             "size"    => 17,
             "notNull" => true,

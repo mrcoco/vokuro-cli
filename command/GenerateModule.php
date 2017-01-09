@@ -119,6 +119,10 @@ class GenerateModule extends Command
                 $input_router = new ArrayInput($router_arguments);
                 $return_router = $router->run($input_router,$output);
                 $output->writeln($return_router);
+                //============== Add on module config array ======
+                $config = include APP_PATH."/config/modules.php";
+                array_push($config,$names);
+                file_put_contents(APP_PATH."/config/modules.php", '<?php return [' ."'".implode("','",$config)."'".'];');
             }else{
                 $output->writeln("Failed create Module");
             }

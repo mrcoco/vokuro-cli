@@ -47,6 +47,10 @@ class DropModule extends Command
 
         //$vendor = $composer->getConfig()->get("vendor-dir");
         //$file = file_get_contents(realpath(__DIR__ . '/../src')."/view.txt");
-        $output->writeln(realpath(__DIR__ . '/../src/view.txt'));
+
+
+        $output->writeln($config);
+
+
     }
 }
