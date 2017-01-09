@@ -43,7 +43,8 @@ class GenerateModule extends Command
         $names  = $input->getArgument('module');
         $table  = $input->getArgument('table');
         $column = $input->getArgument('column');
-        $module = "../../modules";
+        $module = '../../../../modules';
+        $source = "../src/module.txt";
         if (is_dir($module) && !is_writable($module)) {
             $output->writeln('The "%s" directory is not writable');
             return;

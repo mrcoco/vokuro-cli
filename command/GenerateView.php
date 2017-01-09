@@ -42,13 +42,15 @@ class GenerateView extends  Command
         $module     = $input->getArgument('module');
         $controller = $input->getArgument('controller');
         $action     = $input->getArgument('action');
-        $directory  = '../../modules';
+        $directory  = BASE_PATH.'/modules';
+
+        $source     = '../src/view/txt';
         //============== create index view ================//
         $view = $directory."/".strtolower($module)."/views";
         if(! mkdir($view,0755, true)){
             $output->writeln("Failed to create Views Directory");
         }
-        $file = file_get_contents($directory."/cli/src/view.txt");
+        $file = file_get_contents("../cli/src/view.txt");
         if (!file_exists($view."/".ucfirst($action).".volt")) {
             $fh = fopen($view."/".ucfirst($action). ".volt", "w");
             fwrite($fh, $file);
