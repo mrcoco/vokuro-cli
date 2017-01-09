@@ -102,8 +102,6 @@ class GenerateDatabase extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        define('BASE_PATH',realpath(__DIR__ . '/../../../'));
-        define('APP_PATH',BASE_PATH.'/app');
         $config = include APP_PATH."/config/config.php";
         $table  = $input->getArgument('table');
         $column = $input->getArgument('column');
@@ -123,26 +121,7 @@ class GenerateDatabase extends Command
                 'dbname'    => $config->database->dbname
             ]);
         }
-        /**
-        $map = array();
-        $sql = "CREATE TABLE ".$table."( id INTEGER PRIMARY KEY,";
-        foreach ($column as $c) {
-            $entity = explode(":", $c);
-            $name   = $entity[0];
-            $type   = $entity[1];
-            $value  = $entity[2];
-            $map[]  = $name.' '.$type.'('.$value.')';
-        }
-        **/
-        /**
-        $db->query($sql." ".implode(",",$map).")");
-        $db->query("CREATE SEQUENCE ".$table."_id_seq
-        START WITH 1
-        INCREMENT BY 1
-        NO MINVALUE
-        NO MAXVALUE
-        CACHE 1;");
-         * **/
+
         $arr_column = array(
             new Column("id", array(
                 "type"  => Column::TYPE_INTEGER,

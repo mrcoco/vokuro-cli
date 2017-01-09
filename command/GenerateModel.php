@@ -44,12 +44,13 @@ class GenerateModel extends Command
         $column     = $input->getArgument('column');
 
         $map ="";
-        $directory  = '../../modules';
-        $model_dir = $directory."/".strtolower($module)."/models";
+        $directory  = BASE_PATH.'/modules';
+        $model_dir  = $directory."/".strtolower($module)."/models";
+        $source     = realpath(__DIR__ . '/../src/model.txt');
         if(! mkdir($model_dir,0755, true)){
             $output->writeln("Failed to create model Directory");
         }
-        $file = file_get_contents($directory."/cli/src/model.txt");
+        $file = file_get_contents($source);
         $file = str_replace("!module", ucfirst($module), $file);
         $file = str_replace("!name", ucfirst($names), $file);
         $file = str_replace("?name", strtolower($names), $file);

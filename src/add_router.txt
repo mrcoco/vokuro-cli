@@ -6,7 +6,7 @@
  * Time: !time
  */
 
-$router->add('/!module/?action', array(
+$router->add('/?module/?action', array(
     'namespace'  => 'Modules\!module\Controllers',
     'module'     => '?module',
     'controller' => '?module',

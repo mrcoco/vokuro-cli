@@ -42,24 +42,29 @@ class GenerateController extends Command
         $module     = $input->getArgument('module');
         $table      = $input->getArgument('table');
         $column     = $input->getArgument('column');
-        $directory  = '../../modules';
+        $directory  = BASE_PATH.'/modules';
         //============ create controller=============
-        $controler  = $directory."/".strtolower($module)."/controller";
+        $controler  = $directory."/".strtolower($module)."/controllers";
+        $source     = realpath(__DIR__ . '/../src/controller.txt');
         if(! mkdir($controler,0755, true)){
             $output->writeln("Failed to create model Directory");
         }
         $map ="";
+        $input_map ="";
         foreach ($column as $c) {
             $entity = explode(":", $c);
             $name   = $entity[0];   // column name
             $type   = $entity[1];   // column type
             $value  = $entity[2];   // column value
-            $map    .= "\t"."'".$name."' => $"."item->".$name.";"."\n\t";
+            $map    .= "\t"."'".$name."' => $"."item->".$name.","."\n\t";
+            $input_map .= "\t"."$"."data->".$name.";"."\n\t";
         }
-        $file = file_get_contents($directory."/cli/src/controller.txt");
+
+        $file = file_get_contents($source);
         $file = str_replace("!module", ucfirst($module), $file);
         $file = str_replace("!column", ucfirst($map), $file);
         $file = str_replace("!model", ucfirst($table), $file);
+        $file = str_replace("!input", ucfirst($input_map), $file);
         $file = str_replace("!date",date('d/m/Y'),$file);
         $file = str_replace("!time",date('H:m:s'),$file);
         if (!file_exists($controler."/".ucfirst($table)."Controller.php")) {

@@ -43,8 +43,8 @@ class GenerateModule extends Command
         $names  = $input->getArgument('module');
         $table  = $input->getArgument('table');
         $column = $input->getArgument('column');
-        $module = '../../../../modules';
-        $source = "../src/module.txt";
+        $module = BASE_PATH.'/modules';
+        $source = realpath(__DIR__ . '/../src/module.txt');
         if (is_dir($module) && !is_writable($module)) {
             $output->writeln('The "%s" directory is not writable');
             return;
@@ -52,7 +52,7 @@ class GenerateModule extends Command
         if(is_dir($module)){
             if(mkdir($module."/".strtolower($names),0755, true)){
                 //========== Generate Module config =========
-                $file = file_get_contents($module."/cli/src/module.txt");
+                $file = file_get_contents($source);
                 $file = str_replace("!module", ucfirst($names), $file);
                 $file = str_replace("!date",date('d/m/Y'),$file);
                 $file = str_replace("!time",date('HH:mm:ss'),$file);
@@ -113,7 +113,7 @@ class GenerateModule extends Command
                 $router_arguments = array(
                     'command'       => 'create:router',
                     'module'        => $input->getArgument('module'),
-                    'contorller'    => $input->getArgument('table'),
+                    'controller'    => $input->getArgument('table'),
                     'action'        => 'index'
                 );
                 $input_router = new ArrayInput($router_arguments);

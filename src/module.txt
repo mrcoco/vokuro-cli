@@ -6,7 +6,7 @@
  * Time: !time
  */
 
-namespace Modules\!modules;
+namespace Modules\!module;
 
 use Phalcon\Loader;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;

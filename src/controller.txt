@@ -8,9 +8,10 @@
 
 namespace Modules\!module\Controllers;
 use Modules\!module\Models\!model;
-use Phalcon\Mvc\Model\Manager;
+use \Phalcon\Mvc\Model\Manager;
 use \Phalcon\Tag;
-class PagesController extends \Vokuro\Controllers\BaseController
+use Vokuro\Controllers\ControllerBase;
+class !moduleController extends ControllerBase
 {
     public function initialize()
     {

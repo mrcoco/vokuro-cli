@@ -41,12 +41,13 @@ class GenerateRouter extends Command
         $module     = $input->getArgument('module');
         $controller = $input->getArgument('controller');
         $action     = $input->getArgument('action');
-        $directory  = '../../modules';
+        $directory  = BASE_PATH.'/modules';
         //============== create index view ================//
-        $route = $directory."/".strtolower($module);
-
-        $file = file_get_contents($directory."/cli/src/router.txt");
+        $route  = $directory."/".strtolower($module);
+        $source = realpath(__DIR__ . '/../src/router.txt');
+        $file = file_get_contents($source);
         $file = str_replace("!module", ucfirst($module), $file);
+        $file = str_replace("?module", strtolower($module), $file);
         $file = str_replace("!date",date('d/m/Y'),$file);
         $file = str_replace("!time",date('HH:mm:ss'),$file);
         if (!file_exists($route."/router.php")) {
@@ -58,11 +59,12 @@ class GenerateRouter extends Command
 
             $output->writeln("Created $className in modules ".$module);
         } else {
-            $_file = file_get_contents($directory."/cli/src/add_router.txt");
-            $_file = str_replace("!module", ucfirst($module), $_file);
-            $_file = str_replace("?action", ucfirst($action), $_file);
-            $_file = str_replace("!date",date('d/m/Y'),$_file);
-            $_file = str_replace("!time",date('H:m:s'),$_file);
+            $_file  = file_get_contents(realpath(__DIR__ . '/../src/add_router.txt'));
+            $_file  = str_replace("!module", ucfirst($module), $_file);
+            $_file  = str_replace("?module", strtolower($module), $file);
+            $_file  = str_replace("?action", ucfirst($action), $_file);
+            $_file  = str_replace("!date",date('d/m/Y'),$_file);
+            $_file  = str_replace("!time",date('H:m:s'),$_file);
             $fh = fopen($route."/router.php", "w");
             fwrite($fh, $_file);
             fclose($fh);
