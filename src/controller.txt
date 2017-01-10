@@ -53,7 +53,9 @@ class !moduleController extends ControllerBase
         foreach ($qry as $item){
             $arQry[] = array(
                 'no'    => $no,
+                'id'    => $item->id,
                 !column
+                'created' => $item->created
             );
             $no++;
         }

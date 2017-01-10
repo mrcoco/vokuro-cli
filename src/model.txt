@@ -15,4 +15,10 @@ class !name extends \Phalcon\Mvc\Model
 
     !column
 
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $updated;
 }
