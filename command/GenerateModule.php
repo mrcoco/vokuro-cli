@@ -64,6 +64,7 @@ class GenerateModule extends Command
                 $this->createController($input,$output);
                 $this->createRoute($input,$output);
                 $this->createConfig($names);
+                $this->createAsset();
             }else{
                 $output->writeln("Failed create Module");
             }
@@ -209,8 +210,25 @@ class GenerateModule extends Command
         file_put_contents(APP_PATH."/config/modules.php", '<?php return [' ."'".implode("','",$config)."'".'];');
     }
 
+    /**
+     * Create jquery bootgrid Asset file
+     */
     public function createAsset()
     {
-        
+        $css    = BASE_PATH."/public/css/";
+        $js     = BASE_PATH."/public/js/";
+        $source = realpath(__DIR__ . '/../assets/');
+        $css_file   = file_get_contents($source."/jquery.bootgrid.css");
+        $js_file    = file_get_contents($source."/jquery.bootgrid.js");
+        $fajs_file  = file_get_contents($source."/jquery.bootgrid.fa.js");
+        $fc = fopen($css."jquery.bootgrid.css", "w");
+        fwrite($fc, $css_file);
+        fclose($fc);
+        $fj = fopen($js."jquery.bootgrid.js", "w");
+        fwrite($fj, $js_file);
+        fclose($fj);
+        $fa = fopen($js."jquery.bootgrid.fa.js", "w");
+        fwrite($fa, $fajs_file);
+        fclose($fa);
     }
 }
