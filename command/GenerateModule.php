@@ -208,4 +208,9 @@ class GenerateModule extends Command
         array_push($config,$names);
         file_put_contents(APP_PATH."/config/modules.php", '<?php return [' ."'".implode("','",$config)."'".'];');
     }
+
+    public function createAsset()
+    {
+        
+    }
 }
