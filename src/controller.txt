@@ -78,7 +78,7 @@ class !moduleController extends ControllerBase
         $this->view->disable();
         $data = new !model();
         !input
-        if($page->save()){
+        if($data->save()){
             $alert = "sukses";
             $msg .= "Edited Success ";
         }else{

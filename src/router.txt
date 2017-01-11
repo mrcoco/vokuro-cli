@@ -34,10 +34,11 @@ $router->add('/?module/edit', array(
     'action'     => 'edit'
 ));
 
-$router->add('/?module/delete', array(
+$router->add('/?module/delete/{id:[0-9]+}', array(
     'namespace'  => 'Modules\!module\Controllers',
     'module'     => '?module',
     'controller' => '?module',
-    'action'     => 'delete'
+    'action'     => 'delete',
+    'id'         => 1
 ));
 
